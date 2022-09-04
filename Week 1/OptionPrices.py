@@ -67,7 +67,12 @@ class EuropeanCallOption:
             self.binomialTreePretty(binom_tree)
         # Now work backwards, filling in the
         # option prices in the rest of the tree
-        # Your code here
+        
+        for i in range(ni - 1, -1, -1):
+            for j in range(i + 1):
+                binom_tree[i][j]._option_price = (
+                    (p * binom_tree[i + 1][j + 1]._option_price + 
+                     q * binom_tree[i + 1][j]._option_price) / a)
 
         if ni < 10:
             print('\nAfter filled in with all option values:')
@@ -101,19 +106,18 @@ if __name__ == '__main__':
           + '${:.4f}'.format(ec.binomialPrice(5)))
 
 # 1.c
-'''
+
     for steps in [10,20,50,100,200,500,1000]:
         print(('Binomial Tree Euro call price, {:d} time intervals: '
               + '${:.4f}').format(steps, ec.binomialPrice(steps)))
-'''
+    # The price does appear to converge to $6.12
 
 # 1.d
-'''
+
     for S0 in [5, 50, 500]:
         # strike price equals stock price
         ecS0 = EuropeanCallOption(S0, S0, 0.1, 0.4, 0.4167)
         print('With S0, K ==', S0, ecS0)
         print(('Binomial Tree Euro call price, 1000 time intervals: '
               + '${:.4f}').format(ecS0.binomialPrice(1000)))
-'''
-
+    # The tests results show as expected the case.
