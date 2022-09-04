@@ -1,4 +1,7 @@
 
+# File: b_soup_1.py
+# Author(s): xiongyuc, yinliu
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

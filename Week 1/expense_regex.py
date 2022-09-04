@@ -1,6 +1,6 @@
 
 # File: expense_regex.py
-# Author(s): xiongyuc
+# Author(s): xiongyuc, yinliu
 
 
 import re
@@ -9,6 +9,7 @@ records = []
 with open('expenses.txt') as expense:
     for line in expense:
         records.append(line)
+
 # 1a
 # pat = r'D'
 
@@ -40,10 +41,10 @@ with open('expenses.txt') as expense:
 # pat = r',(.*?),(.*?),'
 
 # 1k
-# pat = r'^((?![vwxyz]).)*$'
+# pat = r'^[^vwxyz]*$'
 
 # 1l
-# pat = r'^([1-9]\d.\d\d)'
+# pat = r'^([1-9]\d\.\d\d)'
 
 # 1m
 # pat = r'^(([^,]*),){3}([^,]*)$'
@@ -67,13 +68,15 @@ with open('expenses.txt') as expense:
 # pat = r'(..).*\1.*\1'
 
 # 1t
-# pat = r'(a.*\d)|(\d.*a)'
+# pat = r'(([^:]*:){3}(.*a.*\d))|(([^:]*:){3}(.*\d.*a))'
 
 # 1u
-# pat = r'^((?![A-Z]).)*$'
+# pat = r'^[^A-Z]*$'
 
 # 1v
 pat = r'd.?i'
+
+
 for line in records:
     if re.search(pat, line) != None:
         print(line)

@@ -1,8 +1,7 @@
 
-#
 # File: OptionPrices.py
-# Author(s):
-#
+# Author(s): xiongyuc, yinliu
+
 
 from numpy import log,exp,sqrt
 from scipy.stats import norm   # for Normal CDF
