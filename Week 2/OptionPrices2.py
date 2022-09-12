@@ -1,7 +1,7 @@
 
 #
 # File: OptionPrices2.py
-# Author(s): xiongyuc
+# Author(s): xiongyuc, yongshiz
 #
 
 import time
@@ -426,6 +426,7 @@ if __name__ == '__main__':
     plt.title('Binomial Tree Euro call price')
     plt.xlabel('Volatility')
     plt.ylabel('Price')
+    plt.show()
 
 # 1.g
     
@@ -471,6 +472,7 @@ if __name__ == '__main__':
     plt.xlabel('Volatility')
     plt.ylabel('Price')
     plt.title('Binomial Tree Euro put price')
+    plt.show()
 
 # 1.h
     plt.figure()
@@ -482,17 +484,55 @@ if __name__ == '__main__':
     plt.xlabel('Bionomial Price')
     plt.ylabel('BSM Price')
     plt.title('Comparison')
+    plt.show()
 
 # 1.i
 # For S0, K = 50, T = 0.4167, r = 0.1, sigma = 0.4, 
+
 # Binomial Tree with 1000 time intervals call price: $6.1155
 # BSM Euro call price: $6.1168
 # ERI price: $6.1168
+
 # Binomial Tree with 1000 time intervals put price: $4.0748
 # BSM Euro put price: $4.0761
 # ERI price: $4.0761
 
+# They are all within a penny.
+
+
 # 2.a
+    ac = AmericanCallOption(50.0, 50.0, 0.1, 0.4, 0.4167)
+
+    print(ac)
+    print('Binomial Tree American call price, 5 time intervals: '
+          + '${:.4f}'.format(ac.binomialPrice(5)))
+
+    for steps in [10, 20, 50, 100, 200, 500, 1000]:
+        print(('Binomial Tree American call price, {:d} time intervals: '
+               + '${:.4f}').format(steps, ac.binomialPrice(steps)))
+
+    for S0 in [5, 50, 500]:
+        # strike price equals stock price
+        acS0 = AmericanCallOption(S0, S0, 0.1, 0.4, 0.4167)
+        print('With S0, K ==', S0, acS0)
+        print(('Binomial Tree American call price, 1000 time intervals: '
+               + '${:.4f}').format(acS0.binomialPrice(1000)))
+
+    # Put Option
+    ap = AmericanPutOption(50.0, 50.0, 0.1, 0.4, 0.4167)
+
+    print(ap)
+    print('Binomial Tree American put price, 5 time intervals: '
+          + '${:.4f}'.format(ap.binomialPrice(5)))
+    for steps in [10, 20, 50, 100, 200, 500, 1000]:
+        print(('Binomial Tree American put price, {:d} time intervals: '
+               + '${:.4f}').format(steps, ap.binomialPrice(steps)))
+    for S0 in [5, 50, 500]:
+        # strike price equals stock price
+        apS0 = AmericanPutOption(S0, S0, 0.1, 0.4, 0.4167)
+        print('With S0, K ==', S0, apS0)
+        print(('Binomial Tree American put price, 1000 time intervals: '
+               + '${:.4f}').format(apS0.binomialPrice(1000)))
 
     plt.figure()
     EuroPrice = []
@@ -504,6 +544,7 @@ if __name__ == '__main__':
     plt.xlabel('European Call')
     plt.ylabel('American Call - European Call')
     plt.title('Option Price with S0, K increasing')
+    plt.show()
 
     plt.figure()
     EuroPrice = []
@@ -516,7 +557,8 @@ if __name__ == '__main__':
     plt.xlabel('European Call')
     plt.ylabel('American Call - European Call')
     plt.title('Option Price with Sigma increasing')
-
+    plt.show()
+    
     plt.figure()
     EuroPrice = []
     AmerPrice = []
@@ -527,6 +569,7 @@ if __name__ == '__main__':
     plt.xlabel('European Put')
     plt.ylabel('American Put - European Put')
     plt.title('Option Price with S0, K increasing')
+    plt.show()
 
     plt.figure()
     EuroPrice = []
@@ -539,6 +582,7 @@ if __name__ == '__main__':
     plt.xlabel('European Put')
     plt.ylabel('American Put - European Put')
     plt.title('Option Price with Sigma increasing')
+    plt.show()
 
 # Conclusion: European Call and American Call have the same price under the same setup, 
 # European Put is cheaper than American Put under the same setup.

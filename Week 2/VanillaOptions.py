@@ -1,6 +1,6 @@
 #
 # File: VanillaOptions.py
-# Author(s): xiongyuc
+# Author(s): xiongyuc, yongshiz
 #
 
 import time
@@ -17,6 +17,13 @@ class PlainVanillaOption:
         self._T = T          # expiration time
         self.pf = pf_fun     # payoff function
         self.bi = bi_met     # backward induction met
+
+    def __str__(self):
+        return ('  S0: ' + str(self._S0)
+                + '  K: ' + str(self._K)
+                + '  r: ' + str(self._r)
+                + '  sigma: ' + str(self._sigma)
+                + '  T: ' + str(self._T))
 
     class _PriceNode:
         def __init__(self):
@@ -98,15 +105,10 @@ class EuropeanCallOption(PlainVanillaOption):
         def bi_met(r, K, deltaT, p, q, price_n, price_p, price_q):
             return exp(-r * deltaT) * (p * price_p + q * price_q)
 
-        PlainVanillaOption.__init__(self, S0, K, r, sigma, T, pf_fun, bi_met)
+        super().__init__(S0, K, r, sigma, T, pf_fun, bi_met)
 
     def __str__(self):
-        return ('EuropeanCallOption:\n'
-                + '  S0: ' + str(self._S0)
-                + '  K: ' + str(self._K)
-                + '  r: ' + str(self._r)
-                + '  sigma: ' + str(self._sigma)
-                + '  T: ' + str(self._T))
+        return ('EuropeanCallOption:\n' + super().__str__())
 
     def BSMPrice(self):
         d1 = (log(self._S0 / self._K) + (self._r + self._sigma**2 / 2) \
@@ -125,15 +127,10 @@ class EuropeanPutOption(PlainVanillaOption):
         def bi_met(r, K, deltaT, p, q, price_n, price_p, price_q):
             return exp(-r * deltaT) * (p * price_p + q * price_q)
 
-        PlainVanillaOption.__init__(self, S0, K, r, sigma, T, pf_fun, bi_met)
+        super().__init__(S0, K, r, sigma, T, pf_fun, bi_met)
 
     def __str__(self):
-        return ('EuropeanPutOption:\n'
-                + '  S0: ' + str(self._S0)
-                + '  K: ' + str(self._K)
-                + '  r: ' + str(self._r)
-                + '  sigma: ' + str(self._sigma)
-                + '  T: ' + str(self._T))
+        return ('EuropeanPutOption:\n' + super().__str__())
 
     def BSMPrice(self):
         d1 = (log(self._S0 / self._K) + (self._r + self._sigma**2 / 2) \
@@ -152,15 +149,10 @@ class AmericanCallOption(PlainVanillaOption):
         def bi_met(r, K, deltaT, p, q, price_n, price_p, price_q):
             return max(price_n - K, exp(-r * deltaT) * (p * price_p + q * price_q))
 
-        PlainVanillaOption.__init__(self, S0, K, r, sigma, T, pf_fun, bi_met)
+        super().__init__(S0, K, r, sigma, T, pf_fun, bi_met)
 
     def __str__(self):
-        return ('AmericanCallOption:\n'
-                + '  S0: ' + str(self._S0)
-                + '  K: ' + str(self._K)
-                + '  r: ' + str(self._r)
-                + '  sigma: ' + str(self._sigma)
-                + '  T: ' + str(self._T))
+        return ('AmericanCallOption:\n' + super().__str__())
 
 
 class AmericanPutOption(PlainVanillaOption):
@@ -172,20 +164,103 @@ class AmericanPutOption(PlainVanillaOption):
         def bi_met(r, K, deltaT, p, q, price_n, price_p, price_q):
             return max(K - price_n, exp(-r * deltaT) * (p * price_p + q * price_q))
 
-        PlainVanillaOption.__init__(self, S0, K, r, sigma, T, pf_fun, bi_met)
+        super().__init__(S0, K, r, sigma, T, pf_fun, bi_met)
 
     def __str__(self):
-        return ('AmericanPutOption:\n'
-                + '  S0: ' + str(self._S0)
-                + '  K: ' + str(self._K)
-                + '  r: ' + str(self._r)
-                + '  sigma: ' + str(self._sigma)
-                + '  T: ' + str(self._T))
+        return ('AmericanPutOption:\n' + super().__str__())
 
 
 if __name__ == '__main__':
     
 # 3a Test Code
+
+    # European Call Option
+    
+    ec = EuropeanCallOption(50.0, 50.0, 0.1, 0.4, 0.4167)
+
+    print(ec)
+
+    print('Binomial Tree Euro call price, 5 time intervals: '
+          + '${:.4f}'.format(ec.binomialPrice(5)))
+
+    for steps in [10, 20, 50, 100, 200, 500, 1000]:
+        print(('Binomial Tree Euro call price, {:d} time intervals: '
+               + '${:.4f}').format(steps, ec.binomialPrice(steps)))
+    for S0 in [5, 50, 500]:
+        # strike price equals stock price
+        ecS0 = EuropeanCallOption(S0, S0, 0.1, 0.4, 0.4167)
+        print('With S0, K ==', S0, ecS0)
+        print(('Binomial Tree Euro call price, 1000 time intervals: '
+               + '${:.4f}').format(ecS0.binomialPrice(1000)))
+
+    # European Put Option
+
+    ep = EuropeanPutOption(50.0, 50.0, 0.1, 0.4, 0.4167)
+
+    print(ep)
+    print('Binomial Tree Euro put price, 5 time intervals: '
+          + '${:.4f}'.format(ep.binomialPrice(5)))
+    for steps in [10, 20, 50, 100, 200, 500, 1000]:
+        print(('Binomial Tree Euro put price, {:d} time intervals: '
+               + '${:.4f}').format(steps, ep.binomialPrice(steps)))
+    for S0 in [5, 50, 500]:
+        # strike price equals stock price
+        epS0 = EuropeanPutOption(S0, S0, 0.1, 0.4, 0.4167)
+        print('With S0, K ==', S0, epS0)
+        print(('Binomial Tree Euro put price, 1000 time intervals: '
+               + '${:.4f}').format(epS0.binomialPrice(1000)))
+        ep = EuropeanPutOption(50.0, 50.0, 0.1, 0.4, 0.4167)
+
+    print(ep)
+    print('Binomial Tree Euro put price, 5 time intervals: '
+          + '${:.4f}'.format(ep.binomialPrice(5)))
+    for steps in [10, 20, 50, 100, 200, 500, 1000]:
+        print(('Binomial Tree Euro put price, {:d} time intervals: '
+               + '${:.4f}').format(steps, ep.binomialPrice(steps)))
+    for S0 in [5, 50, 500]:
+        # strike price equals stock price
+        epS0 = EuropeanPutOption(S0, S0, 0.1, 0.4, 0.4167)
+        print('With S0, K ==', S0, epS0)
+        print(('Binomial Tree Euro put price, 1000 time intervals: '
+               + '${:.4f}').format(epS0.binomialPrice(1000)))
+
+    # American Call Option
+
+    ac = AmericanCallOption(50.0, 50.0, 0.1, 0.4, 0.4167)
+
+    print(ac)
+    print('Binomial Tree American call price, 5 time intervals: '
+          + '${:.4f}'.format(ac.binomialPrice(5)))
+
+    for steps in [10, 20, 50, 100, 200, 500, 1000]:
+        print(('Binomial Tree American call price, {:d} time intervals: '
+               + '${:.4f}').format(steps, ac.binomialPrice(steps)))
+
+    for S0 in [5, 50, 500]:
+        # strike price equals stock price
+        acS0 = AmericanCallOption(S0, S0, 0.1, 0.4, 0.4167)
+        print('With S0, K ==', S0, acS0)
+        print(('Binomial Tree American call price, 1000 time intervals: '
+               + '${:.4f}').format(acS0.binomialPrice(1000)))
+
+    # American Put Option
+    
+    ap = AmericanPutOption(50.0, 50.0, 0.1, 0.4, 0.4167)
+
+    print(ap)
+    print('Binomial Tree American put price, 5 time intervals: '
+          + '${:.4f}'.format(ap.binomialPrice(5)))
+    for steps in [10, 20, 50, 100, 200, 500, 1000]:
+        print(('Binomial Tree American put price, {:d} time intervals: '
+               + '${:.4f}').format(steps, ap.binomialPrice(steps)))
+    for S0 in [5, 50, 500]:
+        # strike price equals stock price
+        apS0 = AmericanPutOption(S0, S0, 0.1, 0.4, 0.4167)
+        print('With S0, K ==', S0, apS0)
+        print(('Binomial Tree American put price, 1000 time intervals: '
+               + '${:.4f}').format(apS0.binomialPrice(1000)))
+
+    # More Test Cases
     plt.figure()
     EuroPrice = []
     AmerPrice = []
@@ -196,6 +271,7 @@ if __name__ == '__main__':
     plt.xlabel('European Call')
     plt.ylabel('American Call - European Call')
     plt.title('Option Price with S0, K increasing')
+    plt.show()
 
     plt.figure()
     EuroPrice = []
@@ -208,6 +284,7 @@ if __name__ == '__main__':
     plt.xlabel('European Call')
     plt.ylabel('American Call - European Call')
     plt.title('Option Price with Sigma increasing')
+    plt.show()
 
     plt.figure()
     EuroPrice = []
@@ -219,6 +296,7 @@ if __name__ == '__main__':
     plt.xlabel('European Put')
     plt.ylabel('American Put - European Put')
     plt.title('Option Price with S0, K increasing')
+    plt.show()
 
     plt.figure()
     EuroPrice = []
@@ -231,7 +309,7 @@ if __name__ == '__main__':
     plt.xlabel('European Put')
     plt.ylabel('American Put - European Put')
     plt.title('Option Price with Sigma increasing')
-
+    plt.show()
 
 # 3c
     before_foo = time.time()
