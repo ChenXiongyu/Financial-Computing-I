@@ -70,32 +70,35 @@ print('sllb is sllb2?', sllb is sllb2) # True
 print('sllb is slle?', sllb is slle)   # False
 
 
-# # 3_1.h
-# print('\n3_1.h:')
-# print('slla:', slla)
-# print('displaying slla using a for loop:')
-# for x in slla:
-#     print(x)
-# print('sllc:', sllc)
-# print('creating a set from sllc:')
-# s1 = set(sllc)
-# print('s1:', s1)
+# 3_1.h
+print('\n3_1.h:')
+print('slla:', slla)
+print('displaying slla using a for loop:')
+for x in slla:
+    print(x)
+print('sllc:', sllc)
+print('creating a set from sllc:')
+s1 = set(sllc)
+print('s1:', s1)
 
 
-# # 3_1.i
-# print('sllc:', sllc)
-# sllg = slla + sllc
-# print('sllg:', sllg)    # True -> 5 -> 7 -> hi -> 4.5 -> Ed -> y -> d -> w -> o -> h
+# 3_1.i
+print('\n3_1.i:')
+print('sllc:', sllc)
+sllg = slla + sllc
+print('sllg:', sllg)    # True -> 5 -> 7 -> hi -> 4.5 -> Ed -> y -> d -> w -> o -> h
 
 
-# # 3_1.j
-# print("'w' in sllc:", ('w' in sllc))  # True
-# print("'z' in sllc:", ('z' in sllc))  # False
+# 3_1.j
+print('\n3_1.j:')
+print("'w' in sllc:", ('w' in sllc))  # True
+print("'z' in sllc:", ('z' in sllc))  # False
 
 
-# # 3_1.k
-# sllb.append(3)
-# print('sllb:', sllb)
-# print('sllb.count(3):', sllb.count(3))  # 2
-# sllb.remove(3)
-# print('after remove(3), sllb.count(3):', sllb.count(3))  # 1
+# 3_1.k
+print('\n3_1.k:')
+sllb.append(3)
+print('sllb:', sllb)
+print('sllb.count(3):', sllb.count(3))  # 2
+sllb.remove(3)
+print('after remove(3), sllb.count(3):', sllb.count(3))  # 1

@@ -1,13 +1,14 @@
 
 # File:   SinglyLinkedList.py
-# Author: John K. Ostlund
+# Author: xiongyuc
+# Cover:  John K. Ostlund
 
 class SinglyLinkedList:
    class _SLLNode:
       def __init__(self, value, next_node = None):
          self._value = value
          self._next = next_node
-         
+
    def __init__(self, value=None):
       self._first = None
       if value:
@@ -57,6 +58,42 @@ class SinglyLinkedList:
                   node_other = node_other._next
                else:
                   return False
+   def __add__(self, other):
+      merge = self.copy()
+      for i in other:
+         merge.append(i)
+      return merge
+   def __contains__(self, value):
+      if self._first == None:
+         return False
+      else:
+         node = self._first
+         while node != None:
+            if value == node._value:
+               return True
+            else:
+               node = node._next
+         return False
+   class _SLLIter:
+      def __init__(self, sll):
+         self._sll = sll
+         self._len = len(sll)
+         self._idx = 0
+      def __next__(self):
+         if self._idx < self._len:
+            try:
+               ret = self._sll._value
+            except AttributeError:
+               self._sll = self._sll._first
+               ret = self._sll._value
+            self._idx += 1
+            self._sll = self._sll._next
+            return ret
+         else:
+            raise StopIteration
+   def __iter__(self):
+      return self._SLLIter(self)
+
    def insert(self, *value):
       if len(value) == 1:
          self._first = SinglyLinkedList._SLLNode(value[0], self._first)
@@ -109,3 +146,24 @@ class SinglyLinkedList:
          return SinglyLinkedList(value)
       else:
          return SinglyLinkedList()
+   def count(self, value):
+      num = 0
+      if self._first == None:
+         return num
+      else:
+         node = self._first
+         while node != None:
+            if value == node._value:
+               num += 1
+            node = node._next
+         return num
+   def remove(self, value):
+      if self._first != None:
+         node = self._first
+         if node._value == value:
+            self._first = node._next
+         else:
+            while node._next != None:
+               if node._next._value == value:
+                  node._next = node._next._next
+                  break
