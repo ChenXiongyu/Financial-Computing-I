@@ -1,6 +1,6 @@
 
 # File BT_app_hw3.py
-# Author(s): xiongyuc
+# Author(s): xiongyuc, hoanglov
 
 import BinaryTree_hw3 as bt
 

@@ -1,6 +1,6 @@
 
 # File: BinaryTree_hw3.py
-# Author(s):
+# Author(s): xiongyuc, hoanglov
 
 class BinaryTree:
     class _BTNode:
@@ -139,45 +139,32 @@ class BinaryTree:
             cur_node._left, cur_node._right = cur_node._right, cur_node._left
 
     def delete(self, value):
-        if self._top != None:
-            if self._top._value == value:
-                left = self._top._left
-                right = self._top._right
-                node = left
-                while node._right != None:
-                    node = node._right
-                node._right = right
-                self._top = left
-            else:
-                self._delete_help(self._top, value)
-    def _delete_help(self, parent, value):
-    
-        def _right_to_left(left_node, right_node):
-            node = left_node
-            try:
-                while node._right != None:
-                    node = node._right
-                node._right = right_node
-            except AttributeError:
-                left_node = right_node
-            return left_node
-                    
-        if value > parent._value:
-            if parent._right != None:
-                if value == parent._right._value:
-                    left = parent._right._left
-                    right = parent._right._right
-                    parent._right = _right_to_left(left, right)
-                else:
-                    self._delete_help(parent._right, value)
+        self._top = self._delhelp(self._top, value)
+    def _delhelp(self, cur_node, value):
+        # print(cur_node._value)
+        if not cur_node:
+            return None
+        elif cur_node._value > value:
+            cur_node._left = self._delhelp(cur_node._left, value)
+        elif cur_node._value < value:
+            cur_node._right = self._delhelp(cur_node._right, value)
         else:
-            if parent._left != None:
-                if value == parent._left._value:
-                    left = parent._left._left
-                    right = parent._left._right
-                    parent._left = _right_to_left(left, right)
+            if not cur_node._left:
+                cur_node = cur_node._right
+            elif not cur_node._right:
+                cur_node = cur_node._left
+            else:
+                _right = cur_node._right #save right node
+                cur_node = cur_node._left
+                # if there is no right node => right tree move to right of cur_node._left
+                if not cur_node._right:
+                    cur_node._right = _right
                 else:
-                    self._delete_help(parent._left, value)
+                # tranverse down to the right of left tree => append right tree
+                    while cur_node._right:
+                        cur_node = cur_node._right 
+                    cur_node._right = _right
+        return cur_node
     
     def is_balanced(self):
         if self._top == None:

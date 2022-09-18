@@ -1,6 +1,6 @@
 
 # File:   SinglyLinkedList.py
-# Author: xiongyuc
+# Author: xiongyuc, hoanglov
 # Cover:  John K. Ostlund
 
 class SinglyLinkedList:
@@ -119,19 +119,15 @@ class SinglyLinkedList:
          _next._next = new_node
    def reverse(self):
       if self._first != None:
-         node = self._first
-         value = [node._value]
-         while True:
-            if node._next != None:
-               node = node._next
-               value.append(node._value)
-            else:
-               break
-         value.reverse()
-         node = self._first
-         for i in value:
-            node._value = i
-            node = node._next
+         node_curr = self._first
+         node_prev = None
+         node_next = None
+         while node_curr != None:
+            node_next = node_curr._next
+            node_curr._next = node_prev
+            node_prev = node_curr
+            node_curr = node_next
+         self._first = node_prev
    def copy(self):
       if self._first != None:
          node = self._first

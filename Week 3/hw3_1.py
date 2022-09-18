@@ -1,6 +1,6 @@
 
 # File:    hw3_1.py
-# Authors: xiongyuc
+# Authors: xiongyuc, hoanglov
 
 import SinglyLinkedList as SLL
 
