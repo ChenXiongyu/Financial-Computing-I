@@ -138,3 +138,138 @@ class BinaryTree:
             self._negate_help(cur_node._right)
             cur_node._left, cur_node._right = cur_node._right, cur_node._left
 
+    def delete(self, value):
+        if self._top != None:
+            if self._top._value == value:
+                left = self._top._left
+                right = self._top._right
+                node = left
+                while node._right != None:
+                    node = node._right
+                node._right = right
+                self._top = left
+            else:
+                self._delete_help(self._top, value)
+    def _delete_help(self, parent, value):
+    
+        def _right_to_left(left_node, right_node):
+            node = left_node
+            try:
+                while node._right != None:
+                    node = node._right
+                node._right = right_node
+            except AttributeError:
+                left_node = right_node
+            return left_node
+                    
+        if value > parent._value:
+            if parent._right != None:
+                if value == parent._right._value:
+                    left = parent._right._left
+                    right = parent._right._right
+                    parent._right = _right_to_left(left, right)
+                else:
+                    self._delete_help(parent._right, value)
+        else:
+            if parent._left != None:
+                if value == parent._left._value:
+                    left = parent._left._left
+                    right = parent._left._right
+                    parent._left = _right_to_left(left, right)
+                else:
+                    self._delete_help(parent._left, value)
+    
+    def is_balanced(self):
+        if self._top == None:
+            return True
+        else:
+            node_list = [self._top]
+            node_tbs = []
+            while len(node_list) > 0:
+                for node in node_list:
+                    depth_right = self._depth_help(node._right)
+                    depth_left = self._depth_help(node._left)
+                    if abs(depth_left - depth_right) > 1:
+                        return False
+                    else:
+                        if depth_left:
+                            node_tbs.append(node._left)
+                        if depth_right:
+                            node_tbs.append(node._right)
+                node_list = node_tbs
+                node_tbs = []
+            return True
+
+    def _rotate_help(self, value, rotate_function):
+        if self._top != None:
+            if self._top._value == value:
+                self._top = rotate_function(self._top)
+            else:
+                parent_node = self._top
+                while parent_node._left != None or parent_node._right != None:
+                    if value > parent_node._value:
+                        if parent_node._right != None:
+                            if value == parent_node._right._value:
+                                parent_node._right = \
+                                    rotate_function(parent_node._right)
+                                break
+                            parent_node = parent_node._right
+                    else:
+                        if parent_node._left != None:
+                            if value == parent_node._left._value:
+                                parent_node._left = \
+                                    rotate_function(parent_node._left)
+                                break
+                            parent_node = parent_node._left
+
+    def rotate_left(self, value):
+        def rotate_left_help(cur_node):
+            P = cur_node
+            Q = cur_node._right
+            try:
+                B = Q._left
+            except AttributeError:
+                B = None
+            P._right = B
+            Q._left = P
+            return Q
+        self._rotate_help(value, rotate_left_help)
+    
+    def rotate_right(self, value):
+        def rotate_right_help(cur_node):
+            Q = cur_node
+            P = cur_node._left
+            try:
+                B = P._right
+            except AttributeError:
+                B = None
+            Q._left = B
+            P._right = Q
+            return P
+        self._rotate_help(value, rotate_right_help)
+
+    def Day_balance(self):
+        if self._top != None:
+            while True:
+                depth = self.depth()
+                node = self._top
+                for i in range(depth - 1):
+                    if node._left != None:
+                        self.rotate_right(node._value)
+                        break
+                    else:
+                        node = node._right
+                if i == depth - 2:
+                    break
+            blen = self.depth() - 1
+            m = blen // 2
+            while m != 0:
+                values = [self._top._value]
+                node = self._top
+                for _ in range(1, m):
+                    node = node._right._right
+                    values.append(node._value)
+                for value in values:
+                    self.rotate_left(value)
+                blen = blen - m - 1
+                m = blen // 2

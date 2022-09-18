@@ -1,6 +1,6 @@
 
 # File BT_app_hw3.py
-# Author(s):
+# Author(s): xiongyuc
 
 import BinaryTree_hw3 as bt
 
@@ -38,11 +38,11 @@ bt1.print_pretty()      # should display:
 print('\nbt2.print_pretty():')
 bt2.print_pretty()      # should display no output
 
-print('bt1.depth():', bt1.depth())    # should display 3
+print('bt1.depth():', bt1.depth())    # should display 5
 print('bt2.depth():', bt2.depth())    # should display 0
 
+
 # 1.b
-'''
 bt1.delete(6)
 print('\nafter bt1.delete(6): bt1.print_pretty():')
 bt1.print_pretty()      # should display:
@@ -79,10 +79,9 @@ bt1.print_pretty()      # should display:
             # 7
             #                 3
             #         -4
-'''
+
 
 # 1.c
-'''
 bt3 = bt.BinaryTree()
 bt3.insert(8)
 bt3.insert(14)
@@ -100,10 +99,9 @@ bt3.print_pretty()      # should display:
 print('\nbt1.is_balanced():', bt1.is_balanced())  # True
 print('\nbt2.is_balanced():', bt2.is_balanced())  # True
 print('\nbt3.is_balanced():', bt3.is_balanced())  # False
-'''
+
 
 # 1.d
-'''
 print('\nbt1.print_pretty():')
 bt1.print_pretty()      # should display:
             #         22
@@ -113,6 +111,7 @@ bt1.print_pretty()      # should display:
             #         -4
 bt1.rotate_left(-4)
 print('\nafter bt1.rotate_left(-4): bt1.print_pretty():')
+bt1.print_pretty()
       # should display:
             #         22
             #                 18
@@ -121,6 +120,7 @@ print('\nafter bt1.rotate_left(-4): bt1.print_pretty():')
             #                 -4
 bt1.rotate_left(7)
 print('\nafter bt1.rotate_left(7): bt1.print_pretty():')
+bt1.print_pretty()
       # should display:
             # 22
             #                 18
@@ -129,6 +129,7 @@ print('\nafter bt1.rotate_left(7): bt1.print_pretty():')
             #                         -4
 bt1.rotate_left(2)    # nothing happens
 print('\nafter bt1.rotate_left(2): bt1.print_pretty():')
+bt1.print_pretty()
       # should display:
             # 22
             #                 18
@@ -136,10 +137,10 @@ print('\nafter bt1.rotate_left(2): bt1.print_pretty():')
             #                 3
             #                         -4
 print('\nbt1.is_balanced():', bt1.is_balanced())  # False
-'''
+
 
 # 1.e
-'''
+
 print('\nbt1.print_pretty():')
 bt1.print_pretty()
       # should display:
@@ -176,10 +177,9 @@ bt1.print_pretty()
             #                 3
             #         -4
 print('\nbt1.is_balanced():', bt1.is_balanced())  # True
-'''
+
 
 # 1.f
-'''
 print('\nbt3.print_pretty():')
 bt3.print_pretty()      # should display:
             #                 19
@@ -203,7 +203,3 @@ bt4.Day_balance()
 print('\nafter bt4.Day_balance(): bt4.print_pretty():')
 bt4.print_pretty()
 print('\nbt4.is_balanced():', bt4.is_balanced())  # True
-'''
-
-
-
