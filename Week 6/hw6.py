@@ -1,6 +1,6 @@
 
 # File: hw6.py
-# Authors: Xiongyu Chen (xiongyuc), 
+# Authors: Xiongyu Chen (xiongyuc), Sidan Chen (sidanc)
 
 import numpy as np
 import AVLTree as avl

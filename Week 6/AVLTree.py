@@ -1,7 +1,7 @@
 
 # File: AVLTree.py
 # Starting file for FC I Homework 6
-# Authors: Xiongyu Chen (xiongyuc), 
+# Authors: Xiongyu Chen (xiongyuc), Sidan Chen (sidanc)
 
 class AVLTree:
    class _AVLnode:
@@ -84,7 +84,7 @@ class AVLTree:
                   self._RL_rotate(p-1, pars)
                else:          # N not left heavy: L 
                   self._L_rotate(p-1, pars)
-         if p > 0 and P._BF == 0:
+         if P._BF == 0:
              break  # no need to go higher
          p += 1
 
